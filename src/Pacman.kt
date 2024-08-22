@@ -17,7 +17,9 @@ class Pacman(spawnPacman: Point)
     enum class direzione {NONE, NORTH, WEST, EAST, SOUTH}
 
     var posPacmanMatrice: Point
-    var spriteNone = ImageIO.read(File("sprite/Pacman/pacmanNone.png")) as BufferedImage
+    var icon_path = "sprite"+File.separator+"Pacman"+File.separator+"pacmanNone.png"
+    var sprite: BufferedImage = ImageIO.read(File(icon_path)) as BufferedImage
+    var spriteNone = ImageIO.read(File(icon_path)) as BufferedImage
     var arraySpriteAperto = arrayOf<BufferedImage>()
     var arraySpriteChiuso = arrayOf<BufferedImage>()
     var sprite1o2 = 1
@@ -132,7 +134,7 @@ class Pacman(spawnPacman: Point)
             return (op.filter(immagineCopiata, null))
         }
 
-        var pacmanAperto = ImageIO.read(File("sprite/Pacman/pacman.png")) as BufferedImage
+        var pacmanAperto = ImageIO.read(File("sprite"+File.separator+"Pacman"+File.separator+"pacman.png")) as BufferedImage
 
         for(i in 0 until 4) {
             if(i != 2) {
@@ -148,7 +150,7 @@ class Pacman(spawnPacman: Point)
             }
         }
 
-        var pacmanChiuso = ImageIO.read(File("sprite/Pacman/pacmanBoccaChiusa.png")) as BufferedImage
+        var pacmanChiuso = ImageIO.read(File("sprite"+File.separator+"Pacman"+File.separator+"pacmanBoccaChiusa.png")) as BufferedImage
 
         for(i in 0 until 4) {
             if(i != 2) {

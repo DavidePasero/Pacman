@@ -10,6 +10,7 @@ import javax.imageio.ImageIO
 import javax.swing.ImageIcon
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.SwingUtilities
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -25,7 +26,7 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
     private var spriteArray = arrayOf(Sprite.BLANK, Sprite.MURO, Sprite.PICCOLA_MONETA, Sprite.GRANDE_MONETA, Sprite.SPAWN_AZZURRO, Sprite.SPAWN_BIANCO, Sprite.SPAWN_GIALLO, Sprite.SPAWN_ROSSO, Sprite.PORTALE_VERDE, Sprite.SPAWN_PACMAN)//serve per facilitare l'accesso all'enum Sprite
     var immagini = leggiImmagini()//é un array di BufferedImage
 
-    var immagineContenitoreMappa = (ImageIO.read(File("icons/ContenitoreMappa.png"))) as BufferedImage
+    var immagineContenitoreMappa = (ImageIO.read(File("Icone"+File.separator+"ContenitoreMappa.png"))) as BufferedImage
 
     var dimensioneMatrice = Dimension(27, 31)
     var dimensioneImmagineSingola = Dimension(19, 19)
@@ -46,8 +47,9 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
 
     var pannelloMappa: JPanel
 
-    var pulsanteCarica = AnimatedButton(Dimension(75, 40), "Carica")
-    var pulsanteGioca = AnimatedButton(Dimension(75, 40), "Gioca")
+    var pulsanteCarica = AnimatedButton(Dimension(150, 60), "Carica")
+    var pulsanteGioca = AnimatedButton(Dimension(150, 60), "Gioca")
+    var pulsanteHome = AnimatedButton(Dimension(150, 60), "Home")
 
     var viteRimaste = JLabel("Vite rimaste: ${labelMappa.nViteRimaste}")
     var xpGained = JLabel("XP: ${labelMappa.xp}")
@@ -61,10 +63,13 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
         val pannelloPulsanti = JPanel()
         pannelloPulsanti.layout = GridBagLayout()
         val gbcPulsanti = GridBagConstraints()
-        gbcPulsanti.insets = Insets(20, 0, 0, 0)
+        gbcPulsanti.insets = Insets(10, 0, 0, 0)
 
         pulsanteCarica.addActionListener(this)
         pulsanteCarica.actionCommand = "carica"
+
+        pulsanteHome.addActionListener(this)
+        pulsanteHome.actionCommand = "home"
 
         pulsanteGioca.addActionListener(this)
         pulsanteGioca.actionCommand = "gioca"
@@ -75,9 +80,15 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
         pannelloPulsanti.add(pulsanteCarica, gbcPulsanti)
 
         gbcPulsanti.gridx = 0
-        gbcPulsanti.gridy = 1
+        gbcPulsanti.gridy = 2
         pannelloPulsanti.add(pulsanteGioca, gbcPulsanti)
         pannelloPulsanti.preferredSize = Dimension(pannelloPulsanti.preferredSize.width + 40, pannelloPulsanti.preferredSize.height + 20)
+
+        gbcPulsanti.gridx = 0
+        gbcPulsanti.gridy = 1
+        pannelloPulsanti.add(pulsanteHome, gbcPulsanti)
+        pannelloPulsanti.preferredSize = Dimension(pannelloPulsanti.preferredSize.width + 40, pannelloPulsanti.preferredSize.height + 20)
+
 
         pannelloMappa = PanelloMappa()
         pannelloMappa.preferredSize = Dimension(immagineContenitoreMappa.width, immagineContenitoreMappa.height)
@@ -85,7 +96,7 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
         val gbcMappa = GridBagConstraints()
         labelMappa.preferredSize = dimensioneImmagineMappa
         labelMappa.layout = GridLayout(dimensioneMatrice.height, dimensioneMatrice.width)
-        labelMappa.icon = ImageIcon(mappaGrafica)
+        labelMappa.icon = ImageIcon(immagineContenitoreMappa)
         gbcMappa.gridx = 0
         gbcMappa.gridy = 0
         pannelloMappa.add(labelMappa, gbcMappa)
@@ -101,8 +112,8 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
         var pannelloPunti = JPanel()
         viteRimaste = JLabel("Vite rimaste: ${labelMappa.nViteRimaste}")
         xpGained = JLabel("XP: ${labelMappa.xp}")
-        viteRimaste.font = Font("Font/Amazónica.ttf", Font.PLAIN, 15)
-        xpGained.font = Font("Font/Amazónica.ttf", Font.PLAIN, 15)
+        viteRimaste.font = Font("Font"+File.separator+"Amazónica.ttf", Font.PLAIN, 15)
+        xpGained.font = Font("Font"+File.separator+"Amazónica.ttf", Font.PLAIN, 15)
         pannelloPunti.add(viteRimaste)
         pannelloPunti.add(xpGained)
 
@@ -160,6 +171,8 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
 
     fun leggiImmagini(): Array<BufferedImage>
     {
+        for (i in 0 until 10)
+            print(pathName[i]);
         return Array(pathName.size){ i -> (ImageIO.read(File(pathName[i]))) as BufferedImage}//Per ogni icona/immagine: leggo il file pathName[i] con ImageIO.read, da ció ci ricavo una ImageIcon//, da ImageIcon ricavo una Image con ImageIcon.image e la converto in una BufferedImage
     }
 
@@ -198,6 +211,7 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
         {
             "carica" -> Carica(this)
             "gioca" -> labelMappa.iniziazione()
+            "home" -> (SwingUtilities.getWindowAncestor(this) as PacFrame).switchPanel(0)
         }
     }
 
@@ -291,6 +305,7 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
         {
             pulsanteGioca.isVisible = false
             pulsanteCarica.isVisible = false
+            pulsanteHome.isVisible = false
             statusGioco = gameStatus.STARTING
             pacman.posPacmanMatrice = spawnPacman
             pacman.direzioneCorrente = Pacman.direzione.NONE
@@ -312,8 +327,8 @@ class Gioco: JPanel(), ActionListener, KeyListener, ContieneMappa
             pacman.isStill = false
             tic = Tic(this)
             tic.start()
-            giocaSuono = GiocaSuono("sounds/???.wav")
-            //giocaSuono.start()
+            giocaSuono = GiocaSuono("Suoni"+File.separator+"10 Sprite pezzo techno.wav")
+            giocaSuono.start()
         }
 
         fun calcolaPixel(posizioneCasella: Point): Point//dato come input due numeri interi che rappresentano le coordinate di una casella restituisce un oggetto di tipo Dimension che rappesenta l'inizio di quella casella in pixel

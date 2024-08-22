@@ -4,7 +4,8 @@ import javax.imageio.ImageIO
 
 class Giallo: Fantasmi()
 {
-    override var sprite: BufferedImage = ImageIO.read(File("sprite/Fantasmi/Clyde.png")) as BufferedImage
+    var icon_path = "sprite"+File.separator+"Fantasmi"+File.separator+"Clyde.png"
+    override var sprite: BufferedImage = ImageIO.read(File(icon_path)) as BufferedImage
     override var spriteCorrente: BufferedImage = sprite
     override lateinit var percorso: Array<Pacman.direzione>
     override var speed = 13

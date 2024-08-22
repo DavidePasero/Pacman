@@ -8,7 +8,7 @@ class AnimatedButton(size: Dimension, text: String): JButton(), MouseListener
     init
     {
         this.text = text
-        this.preferredSize = size
+        this.minimumSize = size
         this.addMouseListener(this)
         this.setFocusable(false)
     }

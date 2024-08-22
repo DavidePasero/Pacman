@@ -6,7 +6,6 @@ import java.awt.event.MouseListener
 import java.io.File
 import javax.imageio.ImageIO
 import javax.swing.*
-import javax.swing.border.Border
 
 class EditorMappe: JPanel(), ActionListener, ContieneMappa
 {
@@ -35,7 +34,7 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
         var gbcEsternoPulsanti = GridBagConstraints()
         gbcEsternoPulsanti.insets = Insets(0, 10, 0, 0)
 
-        labelItemSelezionato.font = Font("Font/Amazónica.ttf", Font.PLAIN, 15)
+        labelItemSelezionato.font = Font("Font"+File.separator+"Amazónica.ttf", Font.PLAIN, 15)
 
         var labelPulsanti = JLabel()
         labelPulsanti.preferredSize = Dimension(320, 587)
@@ -94,7 +93,8 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
         gbcPulsanti.gridy = 4
         labelPulsanti.add(pannelloSpawnPacman, gbcPulsanti)
 
-        labelPulsanti.icon = ImageIcon(ImageIO.read(File("icons/ContenitorePulsantiEditor.png")))
+        labelPulsanti.icon = ImageIcon(ImageIO.read(File("Icone"+File.separator+"ContenitorePulsantiEditor.png")))
+        labelPulsanti.preferredSize = Dimension(320, 587)
 
         gbcEsternoPulsanti.gridy = 0
         gbcEsternoPulsanti.gridx = 0
@@ -134,6 +134,10 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
         pulsanteClear.actionCommand = "clear"
         pulsanteClear.addActionListener(this)
 
+        var pulsanteHome = AnimatedButton(Dimension(75, 25), "Home")
+        pulsanteHome.actionCommand = "home"
+        pulsanteHome.addActionListener(this)
+
         gbcButton.gridx = 0; gbcButton.gridy = 0
         pannelloButton.add(pulsanteSalva, gbcButton)
 
@@ -143,11 +147,15 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
         gbcButton.gridx = 2; gbcButton.gridy = 0
         pannelloButton.add(pulsanteClear, gbcButton)
 
+        gbcButton.gridx=3; gbcButton.gridy=0
+        pannelloButton.add(pulsanteHome, gbcButton)
+
         pannelloButton.preferredSize = Dimension(pannelloButton.preferredSize.width + 40, pannelloButton.preferredSize.height + 20)
 
         var labelMappa = JLabel()
         labelMappa.background = Color(0, 0, 0)
-        labelMappa.preferredSize = Dimension(540,620)
+        labelMappa.icon = ImageIcon(ImageIO.read(File("Icone"+File.separator+"ContenitoreMappa.png")))
+        labelMappa.preferredSize = Dimension(550,626)
         labelMappa.layout = GridLayout(31, 27)
 
         pannelloLabelMappa.add(labelMappa, BorderLayout.CENTER)
@@ -191,7 +199,7 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
                     popUpWarningWindow.defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE
                     var warningLabel =
                         JLabel("Questa mappa non puó essere usata, ma puoi ancora salvarla e modificarla")
-                    warningLabel.font = Font("Font/Amazónica.ttf", Font.PLAIN, 12)
+                    warningLabel.font = Font("Font"+File.separator+"Amazónica.ttf", Font.PLAIN, 12)
                     gbc.gridx = 0
                     gbc.gridy = 0
                     popUpWarningWindow.add(warningLabel, gbc)
@@ -202,6 +210,7 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
             }
             "carica" -> Carica(this)
             "clear" -> clear()
+            "home" -> (SwingUtilities.getWindowAncestor(this) as PacFrame).switchPanel(0) //serve per prendere il componente che contiene quello inviato alla funzione, in questo caso prende l'oggetto PacFrame che contiene this (ovvero il pannello corrente)(0);
         }
     }
 
@@ -258,7 +267,7 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
             var dimensioneFont = 12
             if(titolo.length > 14)
                 dimensioneFont = 10
-            titoloPulsante.font = Font("Font/Amazónica.ttf", Font.PLAIN, dimensioneFont)
+            titoloPulsante.font = Font("Font"+File.separator+"Amazónica.ttf", Font.PLAIN, dimensioneFont)
             var icona = immagini[numeroPulsante]
             var gbc = GridBagConstraints()
             this.layout = GridBagLayout()
@@ -312,7 +321,7 @@ class EditorMappe: JPanel(), ActionListener, ContieneMappa
             this.background = Color(0, 0, 0)
             this.actionCommand = "action"//inutile ma lo metto lo stesso per evitare errori stupidi
             this.preferredSize = Dimension(19,19)
-            this.icon = ImageIcon(ImageIO.read(File("sprite/Texture/daInserire.png")))
+            this.icon = ImageIcon(ImageIO.read(File("sprite"+File.separator+"Texture"+File.separator+"daInserire.png")))
             this.isBorderPainted = false
             this.isFocusable = false
             this.addMouseListener(this)

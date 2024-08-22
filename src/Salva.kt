@@ -12,6 +12,7 @@ class Salva(editor: EditorMappe): JFrame(), ActionListener
 {
     var textField = JTextField("Inserire nome cartella")
     var editorMappe = null as EditorMappe?
+    var pathNameSave = "Mappe Custom"+File.separator
 
     init
     {
@@ -76,14 +77,14 @@ class Salva(editor: EditorMappe): JFrame(), ActionListener
             "salva" ->//salva il tutto come file binario in .MAPPA e dispose la finestra
             {
                 var nomeCartella = textField.text
-                var checkEsistenza = File("maps/" + nomeCartella)
+                var checkEsistenza = File(pathNameSave + nomeCartella)
 
                 var contatoreCartelle = 1
 
                 //controlla che non esista un file con quel nome, altrimenti nomina il corrente con nomeFile + i, dove la i sta per quanti file con lo stesso nome esistono
                 while(checkEsistenza.exists())
                 {
-                    checkEsistenza = File("maps/" + nomeCartella + "(" + contatoreCartelle + ")")
+                    checkEsistenza = File(pathNameSave + nomeCartella + "(" + contatoreCartelle + ")")
                     contatoreCartelle++
                 }
 
@@ -98,7 +99,7 @@ class Salva(editor: EditorMappe): JFrame(), ActionListener
                     nomeFile += ".MAPPA";
                 else
                     nomeFile += ".MAPPAINCOMPLETA"
-                var output = ObjectOutputStream(FileOutputStream("maps/" + nomeFile))
+                var output = ObjectOutputStream(FileOutputStream(pathNameSave + nomeFile))
                 output.writeObject(editorMappe?.mappa)
                 output.close()
 

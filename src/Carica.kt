@@ -75,7 +75,7 @@ class Carica(contenitoreMappa: ContieneMappa): JFrame(), ActionListener
 
     fun nomiMappe(): Array<String>//restituisce un array formato da tutti i nomi dei file .MAPPA presenti nella cartella Mappe
     {
-        val mappeDirectory = File("maps")
+        val mappeDirectory = File("Mappe Custom")
         val listaMappe = mappeDirectory.listFiles()
         if(listaMappe != null)
         {
@@ -104,7 +104,7 @@ class Carica(contenitoreMappa: ContieneMappa): JFrame(), ActionListener
         if(e?.actionCommand == "accetta")
         {
             var nomeFile = nomiFileMappe[qualeMappaSelezionata]
-            var input = ObjectInputStream(FileInputStream("maps/" + nomeFile))
+            var input = ObjectInputStream(FileInputStream("Mappe Custom"+File.separator+"" + nomeFile))
             contieneMappa.mappa = input.readObject() as Mappa
             contieneMappa.aggiornaMappa()
             input.close()
@@ -138,16 +138,16 @@ class Carica(contenitoreMappa: ContieneMappa): JFrame(), ActionListener
                 if (selected)
                 {
                     if(isComplete)
-                        cartellaAperta = ImageIO.read(File("icons/CartellaAperta.png"))
+                        cartellaAperta = ImageIO.read(File("Icone"+File.separator+"CartellaAperta.png"))
                     else
-                        cartellaAperta = ImageIO.read(File("icons/CartellaApertaIncompleta.png"))
+                        cartellaAperta = ImageIO.read(File("Icone"+File.separator+"CartellaApertaIncompleta.png"))
                 }
                 else
                 {
                     if(isComplete)
-                        cartellaChiusa = ImageIO.read(File("icons/CartellaChiusa.png"))
+                        cartellaChiusa = ImageIO.read(File("Icone"+File.separator+"CartellaChiusa.png"))
                     else
-                        cartellaChiusa = ImageIO.read(File("icons/CartellaChiusaIncompleta.png"))
+                        cartellaChiusa = ImageIO.read(File("Icone"+File.separator+"CartellaChiusaIncompleta.png"))
                 }
             } catch (e: IOException) {
                 println(e.message)

@@ -6,14 +6,13 @@ import kotlin.math.abs
 
 abstract class Fantasmi
 {
-    //CACCIA segue pacman, SCATTER torna allo spawn e ci sta un po', SPAVENTO inizia a girare a caso per la mappa e se viene toccato da PACMAN entra in modalitá IN_LETARGO che consiste nell'andare allo spawn
-    enum class Mode{CACCIA, SCATTER, SPAVENTO, IN_LETARGO}
+    enum class Mode{CACCIA, SCATTER, SPAVENTO, IN_LETARGO}//CACCIA segue pacman, SCATTER torna allo spawn e ci sta un po', SPAVENTO inizia a girare a caso per la mappa e se viene toccato da PACMAN entra in modalitá IN_LETARGO che consiste nell'andare allo spawn
     var arrayEnum: Array<Pacman.direzione> = arrayOf(Pacman.direzione.NORTH, Pacman.direzione.WEST, Pacman.direzione.EAST, Pacman.direzione.SOUTH)
     var arrayListEnum = ArrayList<Pacman.direzione>(4)
 
-    var spriteSpavento = ImageIO.read(File("sprite/Fantasmi/fantasmaSpaventato.png")) as BufferedImage
-    var spriteMezzoSpavento = ImageIO.read(File("sprite/Fantasmi/fantasmaMezzoSpaventato.png")) as BufferedImage
-    var spriteLetargo = ImageIO.read(File("sprite/Fantasmi/InLetargo.png")) as BufferedImage
+    var spriteSpavento = ImageIO.read(File("sprite"+File.separator+"Fantasmi"+File.separator+"fantasmaSpaventato.png")) as BufferedImage
+    var spriteMezzoSpavento = ImageIO.read(File("sprite"+File.separator+"Fantasmi"+File.separator+"fantasmaMezzoSpaventato.png")) as BufferedImage
+    var spriteLetargo = ImageIO.read(File("sprite"+File.separator+"Fantasmi"+File.separator+"InLetargo.png")) as BufferedImage
 
     lateinit var posizione: Point
     lateinit var spawn: Point
@@ -30,8 +29,7 @@ abstract class Fantasmi
     var nTic = 0
     lateinit var nodoSpavento: Point//il fantasma si dirige a nodoSpavento quando é spaventato
 
-    //tipo un costruttore, serve per inizializzare il fantasma quando si hanno piú informazioni, tipo la mappa, il proprio spawn e lo spawn di pacmna
-    fun start(mappa: Mappa, spawn: Point, spawnPacman: Point)
+    fun start(mappa: Mappa, spawn: Point, spawnPacman: Point)//tipo un costruttore, serve per inizializzare il fantasma quando si hanno piú informazioni, tipo la mappa, il proprio spawn e lo spawn di pacmna
     {
         this.nTic = 0
         this.mappa = mappa
@@ -46,8 +44,7 @@ abstract class Fantasmi
         obiettivo()//cosí si inizializza anche percorso
     }
 
-    //aggiorna la posizione e la direzione di Pacman e cambia la propria posizione in base a percorso[0]s
-    fun incrementaTic(nuovaPosPacman: Point, nuovaDirezionePacman: Pacman.direzione)
+    fun incrementaTic(nuovaPosPacman: Point, nuovaDirezionePacman: Pacman.direzione)//aggiorna la posizione e la direzione di Pacman e cambia la propria posizione in base a percorso[0]
     {
         posPacman = nuovaPosPacman
         direzionePacman = nuovaDirezionePacman
@@ -68,11 +65,9 @@ abstract class Fantasmi
         }
     }
 
-    //la funzione che deve generare un percorso per pacman in base alla modalitá
-    abstract fun obiettivo()
+    abstract fun obiettivo()//la funzione che deve generare un percorso per pacman in base alla modalitá
 
-    //quando si é in modalitá SPAVENTO tutti i fantasmi si comportano uguali, e cioé cambiano sprite e prendono un punto a caso disponibile nella mappa e ci vanno, quando lo raggiungono ne trovano un altro e ripetono tutto questo finché non vengono mangiati da pacman o tornano normali
-    fun spavento()
+    fun spavento()//quando si é in modalitá SPAVENTO tutti i fantasmi si comportano uguali, e cioé cambiano sprite e prendono un punto a caso disponibile nella mappa e ci vanno, quando lo raggiungono ne trovano un altro e ripetono tutto questo finché non vengono mangiati da pacman o tornano normali
     {
         speed = 30
         spriteCorrente = spriteSpavento
@@ -92,8 +87,7 @@ abstract class Fantasmi
         percorso = ricercaPercorso(posizione, nodoSpavento, mappa)
     }
 
-    // quando si é in modalitá LETARGO tutti i fantasmi si comportano uguale, e cioé tornano allo spawn e cambino il loro sprite
-    fun letargo()
+    fun letargo()//quando si é in modalitá LETARGO tutti i fantasmi si comportano uguale, e cioé tornano allo spawn e cambino il loro sprite
     {
         nodoSpavento = spawn
         if(posizione == spawn)

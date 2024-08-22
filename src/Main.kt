@@ -1,4 +1,6 @@
-var pathName = arrayOf("sprite/Texture/blank.png", "sprite/Texture/muro.png", "sprite/Texture/monetaPiccola.png", "sprite/Texture/monetaGrande.png", "sprite/Texture/iconaMostroAzzurro.png", "sprite/Texture/iconaMostroBianco.png", "sprite/Texture/iconaMostroGiallo.png", "sprite/Texture/iconaMostroRosso.png", "sprite/Texture/portaleVerde.png", "sprite/Texture/iconaPacman.png", "sprite/Texture/nero.png")
+import java.io.File
+
+var pathName = arrayOf("sprite"+ File.separator+"Texture"+File.separator+"blank.png", "sprite"+File.separator+"Texture"+File.separator+"muro.png", "sprite"+File.separator+"Texture"+File.separator+"monetaPiccola.png", "sprite"+File.separator+"Texture"+File.separator+"monetaGrande.png", "sprite"+File.separator+"Texture"+File.separator+"iconaMostroAzzurro.png", "sprite"+File.separator+"Texture"+File.separator+"iconaMostroBianco.png", "sprite"+File.separator+"Texture"+File.separator+"iconaMostroGiallo.png", "sprite"+File.separator+"Texture"+File.separator+"iconaMostroRosso.png", "sprite"+File.separator+"Texture"+File.separator+"portaleVerde.png", "sprite"+File.separator+"Texture"+File.separator+"iconaPacman.png", "sprite"+File.separator+"Texture"+File.separator+"nero.png")
 
 fun main(args: Array<String>)
 {
